@@ -3,7 +3,7 @@ services:
   cromadb:
     image: chromadb/chroma:1.0.0
     # platform: linux/arm64
-    container_name: chromadb
+    container_name: chromadb_edilioai
     ports:
       - "127.0.0.1:8008:8000"
     volumes:
@@ -15,7 +15,7 @@ services:
   mysql:
     image: mysql:8.0.25
     platform: linux/x86_64
-    container_name: mysql
+    container_name: mysql_edilioai
     restart: unless-stopped
     environment:
       TZ: 'Europe/Rome'
@@ -46,7 +46,7 @@ services:
   jupyterlab:
     image: jupyter/scipy-notebook:magliano
     # platform: linux/x86_64
-    container_name: jupyter
+    container_name: jupyter_edilioai
     restart: unless-stopped
     user: root
     environment:
