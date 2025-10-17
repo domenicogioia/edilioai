@@ -1,0 +1,28 @@
+.env
+.DS_Store
+*.DS_Store
+.ipynb_checkpoints/*
+*-checkpoint.ipynb
+**/*.ipynb_checkpoints/
+
+# la cache dei precompilati python
+__pycache__/*
+*.pyc
+
+# directory di chache di pycharm
+.idea/
+feflask2_edilioai/.idea/
+
+
+/jupyter_workspace/
+/mysql_data/
+
+# la directory dei backups
+dom_backups/
+feflask2_edilioai/uploaded_files/*
+feflask2_edilioai/storage/*
+log/
+/script/backups/
+/chroma-data/
+/jupyter_workspace/
+/sito_web/

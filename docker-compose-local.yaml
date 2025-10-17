@@ -1,0 +1,61 @@
+
+services:
+  cromadb:
+    image: chromadb/chroma:1.0.0
+    platform: linux/arm64
+    container_name: chromadb
+    ports:
+      - "127.0.0.1:8008:8000"
+    volumes:
+      - /Users/dom/dev_space/edilioai/chroma_data:/data
+    networks:
+      my_network:
+        ipv4_address: 172.20.0.30
+
+  mysql:
+    image: mysql:8.0.25
+    platform: linux/x86_64
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      TZ: 'Europe/Rome'
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
+    networks:
+      my_network:
+        ipv4_address: 172.20.0.31
+    command: --sql-mode="" --max_allowed_packet=32M
+    ports:
+      - "8844:3306"
+    volumes:
+      - /Users/dom/dev_space/edilioai/mysql_data:/var/lib/mysql
+
+  jupyterlab:
+    image: jupyter/scipy-notebook:magliano
+    platform: linux/x86_64
+    container_name: jupyter
+    restart: unless-stopped
+    user: root
+    environment:
+      GRANT_SUDO: "yes"
+      JUPYTER_ENABLE_LAB: "yes"
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      MAILTRAP_PASS: ${MAILTRAP_PASS}
+      MYSQL_PASS: ${MYSQL_PASS}
+    networks:
+      my_network:
+        ipv4_address: 172.20.0.5
+    ports:
+      - "8080:8888"
+    volumes:
+      - /Users/dom/dev_space/edilioai/jupyter_workspace:/home/jovyan/work
+      - /Users/dom/dev_space/edilioai/feflask2_edilioai:/home/jovyan/work/feflask2_edilioai
+    command: start-notebook.sh --NotebookApp.token='${JUPYTERLAB_TOKEN}'
+
+
+networks:
+  my_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
